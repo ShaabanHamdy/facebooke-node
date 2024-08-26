@@ -18,6 +18,7 @@ const sendEmail = async ({
             // pass: process.env.PASS
             user: "shabanhamdy94@gmail.com",
             pass: "kxoc kvip witp vfyw",
+            
         }
     })
     const info = await transporter.sendMail({
