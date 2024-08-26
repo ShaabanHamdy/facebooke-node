@@ -9,7 +9,7 @@ const App = (express) => {
     app.use(cors())
     // =================================================================================================
     app.use(express.json({}))
-    const port = process.env.PORT || 4000
+    const port = process.env.PORT || 5000
     Connection_db()
     // =========================================== Routes ===============================================
     app.get('/', (req, res) => res.send('Hello World!'))
