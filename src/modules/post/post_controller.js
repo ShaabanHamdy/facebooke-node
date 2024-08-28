@@ -2,7 +2,6 @@ import postModel from "../../../db/models/post_modal.js"
 
 
 
-
 export const createPost = async (req, res, next) => {
 
     if (!req.files) {
@@ -25,7 +24,7 @@ export const createPost = async (req, res, next) => {
 
 // ========================================================================================
 export const getAllPosts = async (req, res, next) => {
-    // const {limit,skip} = paginate(req.query.page , req.query.size)
+
     const post = await postModel.find()
     // .limit(limit).skip(skip)
     if (post.length == 0) {
