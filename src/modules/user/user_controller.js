@@ -22,10 +22,10 @@ export const signup = async (req, res, next) => {
     const checkUser = await userModel.findOne({ email: req.body.email })
     if (checkUser) { return next(new Error("Email Already Exist")) }
     const user = new userModel(req.body)
-    const token = tokenGeneration({ payload: { user }, expiredIn: 60 * 5 })
-    if (!token) return next(new Error("fail in generate token", { cause: 400 }))
     await user.save()
     if (!user) return next(new Error("fail to create user"))
+    const token = tokenGeneration({ payload: { user }})
+    if (!token) return next(new Error("fail to generate token", { cause: 400 }))
     res.json({ message: "success", user })
 }
 

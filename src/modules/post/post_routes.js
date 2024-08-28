@@ -13,6 +13,7 @@ router.post("/createPost",auth(),myMulter()
 asyncHandling(post_controllers.createPost))
 
 router.get("/getAllPosts",auth(),asyncHandling(post_controllers.getAllPosts))
+router.get("/getUserPosts",auth(),asyncHandling(post_controllers.getUserPosts))
 
 
 router.delete("/deletePost",auth(),

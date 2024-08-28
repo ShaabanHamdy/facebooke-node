@@ -7,18 +7,30 @@ import { tokenDecode } from './../utils/tokenGeneration.js';
 
 
 
+
 const auth = () => {
     return asyncHandling(async (req, res, next) => {
+
         const { auth } = req.headers
-        if (!auth) return next(new Error("You are not logged in. Please login to get access"))
+
+        if (!auth) return next(new Error("auth empty"))
+
         const decode = tokenDecode({ payload: auth })
-        const user = await userModel.findById({ _id: decode.id }).select("name email")
-     
+
+        if (!decode?.id) return next(new Error("invalid  tokenDecode"))
+
+        const user = await userModel.findById(decode.id).select("name email _id")
         if (!user) return next(new Error("not register account"))
-        req.user = user
+
+            
+            req.user = user
+            console.log({
+                "decode": decode,
+                "user": user,
+                "req.user": req.user
+            });
 
         return next()
     })
 }
-
 export default auth
