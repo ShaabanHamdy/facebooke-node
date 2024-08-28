@@ -26,11 +26,9 @@ export const createPost = async(req,res,next)=>{
 
 
 export const getAllPosts = async (req, res, next) => {
-    const {limit,skip} = paginate(req.query.page , req.query.size)
+   // const {limit,skip} = paginate(req.query.page , req.query.size)
     
-    const post = await postModel.find().populate([{
-        path: "userId"
-    }])
+    const post = await postModel.find()
     // .limit(limit).skip(skip)
     if (post.length == 0) {
         next(new Error("no posts available"))
