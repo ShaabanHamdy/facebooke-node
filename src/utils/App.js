@@ -13,6 +13,7 @@ const App = (express) => {
     Connection_db()
     // =========================================== Routes ===============================================
     app.get('/', (req, res) => res.send('Hello World!'))
+    app.use("/uploads", express.static("uploads"))
     app.use('/user', appRoutes.userRouter)
     app.use('/post', appRoutes.postRouter)
     // =========================================== global error handling  ===============================================

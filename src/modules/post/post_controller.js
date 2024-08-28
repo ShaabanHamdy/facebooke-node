@@ -15,7 +15,7 @@ export const createPost = async(req,res,next)=>{
 
     const post = await postModel.create({
         // postImage: req.files?.postImage.map((e) =>"https://freshcard-ecommerce-node.onrender.com/" + e.path),
-        postImage: req.files?.postImage.map((e) =>"http://localhost:5000/post/createPost" + e.path),
+        postImage: req.files?.postImage.map((e) =>"https://shaaban-facebook-node.up.railway.app/" + e.path),
         postContent: req.body.postContent,
         likes: req.body.likes,
         unLikes: req.body.unLikes,
