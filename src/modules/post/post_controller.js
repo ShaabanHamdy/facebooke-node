@@ -4,7 +4,7 @@ import postModel from "../../../db/models/post_modal.js"
 
 
 export const createPost = async (req, res, next) => {
-    
+
     if (!req.files) {
         next(new Error("please select post picture", { cause: 400 }))
     }
@@ -36,7 +36,7 @@ export const getAllPosts = async (req, res, next) => {
 // ========================================================================================
 export const getUserPosts = async (req, res, next) => {
     // const {limit,skip} = paginate(req.query.page , req.query.size)
-    const post = await postModel.find({userId: req.user.id })
+    const post = await postModel.find({ userId: req.user.id })
     // .limit(limit).skip(skip)
     if (post.length == 0) {
         next(new Error("no posts available"))

@@ -8,16 +8,17 @@ const router = Router()
 
 
 
-router.post("/createPost",auth(),myMulter()
-.fields([{ name: "postImage", maxCount: 1 }]),
-asyncHandling(post_controllers.createPost))
+router.post("/createPost", auth(), myMulter()
+    .fields([{ name: "postImage", maxCount: 1 }]),
+    asyncHandling(post_controllers.createPost))
 
-router.get("/getAllPosts",auth(),asyncHandling(post_controllers.getAllPosts))
-router.get("/getUserPosts",auth(),asyncHandling(post_controllers.getUserPosts))
+router.get("/getAllPosts", auth(), asyncHandling(post_controllers.getAllPosts))
+
+router.get("/getUserPosts", auth(), asyncHandling(post_controllers.getUserPosts))
 
 
-router.delete("/deletePost",auth(),
-asyncHandling(post_controllers.deletePost))
+router.delete("/deletePost", auth(),
+    asyncHandling(post_controllers.deletePost))
 
 
 

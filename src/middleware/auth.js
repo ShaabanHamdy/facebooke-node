@@ -22,13 +22,9 @@ const auth = () => {
         const user = await userModel.findById(decode.id).select("name email _id")
         if (!user) return next(new Error("not register account"))
 
-            
-            req.user = user
-            console.log({
-                "decode": decode,
-                "user": user,
-                "req.user": req.user
-            });
+
+        req.user = user
+
 
         return next()
     })
