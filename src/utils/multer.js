@@ -2,8 +2,6 @@ import multer from "multer";
 import { nanoid } from "nanoid";
 import SharpMulter from "sharp-multer";
 
-
-
 // ===========================================================
 const validationObject = {
     image: ['image/png', 'image/jpeg', 'image/gif'],
@@ -19,9 +17,8 @@ export const myMulter = () => {
             return `${nanoid(4)}--` + req
         },
         imageOptions: {
-            quality: 80,
-
-            // resize: { width: 250, height: 250 },
+            // quality: 80,
+            // resize: { width: 1000, height: 1000 },
         },
 
     });
@@ -37,3 +34,18 @@ export const myMulter = () => {
     const upload = multer({ fileFilter, storage })
     return upload
 }
+
+
+// ==================================================================
+
+
+
+
+
+
+
+
+
+
+
+

@@ -36,8 +36,16 @@ const signupSchema = Joi.object({
         'string.pattern.base': 'Please provide a valid Egyptian mobile number',
         'any.required': 'Mobile number is required',
     }),
+
+    birthOfDate: Joi.string()
+        .pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Date of birth must be in the format like 15/08/1990',
+            'string.empty': 'Date of birth is required'
+        }),
 });
-export const signupMiddleware = async (req, res, next) => {
+export const signupValidation = async (req, res, next) => {
     try {
         // Asynchronously validate the request body
         await signupSchema.validateAsync(req.body, { abortEarly: false });
@@ -48,7 +56,7 @@ export const signupMiddleware = async (req, res, next) => {
             success: false,
             status: 'Validation failed',
             message: error.details.map(err => err.message),
-            
+
             // Extracting error messages
         });
     }
@@ -104,7 +112,6 @@ export const codeSchemaValidator = (req, res, next) => {
     next();
 }
 // =============================================================================================================
-// =============================================================================================================
 const changePasswordSchema = Joi.object({
     newPassword: Joi.string().min(8).required().pattern(new RegExp('^(?=.*[A-Z]{2,})(?=.*[!@#$%^&*]).*$')).messages({
         'string.pattern.base': 'new Password must contain at least two uppercase letters and one special character',
@@ -132,4 +139,41 @@ export const changePasswordSchemaValidator = (req, res, next) => {
 
     next();
 }
+
+
 // =============================================================================================================
+
+const settingsProfile = Joi.object({
+    birthOfDate: Joi.string()
+        .pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/)
+        .messages({
+            'string.pattern.base': 'Date of birth must be in the format like 15/08/1990',
+        }),
+    name: Joi.string().min(3).max(50).external(isUnique).messages({
+        'string.empty': 'Name cannot be empty',
+        'string.min': 'Name should have a minimum length of {#limit}',
+        'string.max': 'Name should have a maximum length of {#limit}',
+    }),
+    profileImage: Joi.object({
+        mimetype: Joi.string()
+          .valid('image/jpeg', 'image/png', 'image/gif') // Allow only specific image types
+          .required(),
+        size: Joi.number().max(5 * 1024 * 1024).required(), // Limit file size to 5MB
+      }),
+});
+export const settingsProfileValidation = async (req, res, next) => {
+    try {
+        // Asynchronously validate the request body
+        await settingsProfile.validateAsync(req.body, { abortEarly: false });
+        next(); // Proceed to the next middleware or route handler if validation passes
+    } catch (error) {
+        // Handle validation errors
+        return res.status(400).json({
+            success: false,
+            status: 'Validation failed',
+            message: error.details.map(err => err.message),
+
+            // Extracting error messages
+        });
+    }
+};

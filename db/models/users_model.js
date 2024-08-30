@@ -22,8 +22,6 @@ const userSchema = new mongoose.Schema({
             /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
             'Please fill a valid email address',
         ],
-
-
     },
     password: {
         type: String,
@@ -47,7 +45,11 @@ const userSchema = new mongoose.Schema({
         default: "male",
         enum: ["male", "female"]
     },
-    birthDate: String,
+    birthOfDate: {
+        type:String,
+        required: [true, 'Birth of Date is required'],
+    
+    },
     status: {
         type: String,
         default: "offline",
@@ -65,13 +67,7 @@ const userSchema = new mongoose.Schema({
     changePasswordTime: {
         type: Date
     },
-
-
-
-
-
-
-    // ============================================
+    profileImage: { type: [Object] },
     // country: {
     //     type: String,
     //     required: [true, 'Country is required'],
