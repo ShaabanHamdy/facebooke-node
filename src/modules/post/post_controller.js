@@ -7,7 +7,8 @@ export const createPost = async (req, res, next) => {
         next(new Error("please select post picture", { cause: 400 }))
     }
     const post = await postModel.create({
-        postImage: req.files?.postImage.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
+        postImage: req.files?.postImage
+        .map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
         postContent: req.body.postContent,
         likes: req.body.likes,
         unLikes: req.body.unLikes,
@@ -19,7 +20,7 @@ export const createPost = async (req, res, next) => {
 
 // ========================================================================================
 export const getAllPosts = async (req, res, next) => {
-    const post = await postModel.find()
+    const post = await postModel.find().sort({ createdAt: -1 })
     if (post.length == 0) return next(new Error("no posts available"))
     res.json({ message: "success", results: post.length, post })
 }

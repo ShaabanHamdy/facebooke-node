@@ -78,13 +78,37 @@ export const settingsProfile = async (req, res, next) => {
                 name: req.body.name,
                 birthOfDate: req.body.birthOfDate,
                 profileImage: req.files?.profileImage?.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
-            })
+            },{ new: true } )
     if (!settingsProfile) {
 
         return next(Error("failed"))
 
     }
     return res.status(200).json({ message: "Done", settingsProfile })
+}
+
+// ====================================================================== changePassword
+export const getUserInfo = async (req, res, next) => {
+
+    const user = await userModel.find()
+    // console.log(user);
+    
+
+
+    // const settingsProfile =
+    //     await userModel.findOneAndUpdate(
+    //         { _id: req.user.id },
+    //         {
+    //             name: req.body.name,
+    //             birthOfDate: req.body.birthOfDate,
+    //             profileImage: req.files?.profileImage?.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
+    //         })
+    // if (!settingsProfile) {
+
+    //     return next(Error("failed"))
+
+    // }
+    return res.status(200).json({ message: "Done", user })
 }
 
 

@@ -27,6 +27,9 @@ router.post("/confirmCodeInfo", userValidation.codeSchemaValidator, asyncHandlin
 router.post("/changePassword", userValidation.changePasswordSchemaValidator, asyncHandling(user_controller.changePassword))
 
 // //================================================= ===============    
+router.get("/getUserInfo",auth(),  asyncHandling(user_controller.getUserInfo ))
+
+// //================================================= ===============    
 
 
 router.post("/settingsProfile", auth(),
