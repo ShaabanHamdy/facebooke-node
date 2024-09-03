@@ -25,6 +25,9 @@ router.delete("/deleteOnePost", auth(), asyncHandling(post_controllers.deleteOne
 
 router.delete("/deleteAllPosts", auth(),asyncHandling(post_controllers.deleteAllPosts))
 
+// ====================================================================================================================
+
+router.post("/editPost", auth(), myMulter().fields([{ name: "postImage", maxCount: 1 }]),asyncHandling(post_controllers.editPost))
 
 // ====================================================================================================================
 
