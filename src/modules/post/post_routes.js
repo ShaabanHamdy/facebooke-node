@@ -19,8 +19,7 @@ router.get("/getUserPosts", auth(), asyncHandling(post_controllers.getUserPosts)
 
 // ====================================================================================================================
 
-router.delete("/deleteOnePost/:postId", 
-    auth(), asyncHandling(post_controllers.deleteOnePost))
+router.delete("/deleteOnePost/:postId", auth(), asyncHandling(post_controllers.deleteOnePost))
 
 // ====================================================================================================================
 
@@ -28,7 +27,7 @@ router.delete("/deleteAllPosts", auth(),asyncHandling(post_controllers.deleteAll
 
 // ====================================================================================================================
 
-router.post("/editPost", auth(), myMulter().fields([{ name: "postImage", maxCount: 1 }]),asyncHandling(post_controllers.editPost))
+router.put("/editPost/:postId", auth(), myMulter().fields([{ name: "postImage", maxCount: 1 }]),asyncHandling(post_controllers.editPost))
 
 // ====================================================================================================================
 

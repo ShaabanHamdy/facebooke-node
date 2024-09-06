@@ -41,20 +41,18 @@ export const deleteOnePost = async (req, res, next) => {
 
 export const editPost = async (req, res, next) => {
 
-    const updatePost = await postModel.findOneAndUpdate({ userId: req.user.id }, {
-        postContent: req.body.postContent,
-        postImage: req.files?.postImage.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
+    const updatePost = await postModel.findOneAndUpdate({ userId: req.user.id , _id:req.params.postId }, 
+    {
+        postContent: req?.body?.postContent,
+        postImage: req?.files?.postImage?.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
     }, { new: true }
 
     )
 
-    if (!updatePost) {
-
-        return next(Error("failed"))
-
-    }
-    return res.status(200).json({ message: "Done", updatePost })
+    if (!updatePost)  return next(Error("failed"))
+    return res.status(200).json({ message: "updated post", updatePost })
 }
+
 
 // ======================================================
 
