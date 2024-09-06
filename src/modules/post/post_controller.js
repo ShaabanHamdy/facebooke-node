@@ -39,7 +39,6 @@ export const deleteOnePost = async (req, res, next) => {
 }
 // ======================================================
 
-
 export const editPost = async (req, res, next) => {
 
     const updatePost = await postModel.findOneAndUpdate({ userId: req.user.id }, {

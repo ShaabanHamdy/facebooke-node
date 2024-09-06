@@ -19,7 +19,8 @@ router.get("/getUserPosts", auth(), asyncHandling(post_controllers.getUserPosts)
 
 // ====================================================================================================================
 
-router.delete("/deleteOnePost/:postId", auth(), asyncHandling(post_controllers.deleteOnePost))
+router.delete("/deleteOnePost/:postId", 
+    auth(), asyncHandling(post_controllers.deleteOnePost))
 
 // ====================================================================================================================
 
