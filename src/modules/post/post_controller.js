@@ -4,12 +4,9 @@ import userModel from "../../../db/models/users_model.js"
 
 
 export const createPost = async (req, res, next) => {
-    if (!req.files) {
-        next(new Error("please select post picture", { cause: 400 }))
-    }
+    
     const post = await postModel.create({
-        postImage: req.files?.postImage
-            .map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
+        postImage: req.files?.postImage?.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
         postContent: req.body.postContent,
         likes: req.body.likes,
         unLikes: req.body.unLikes,
