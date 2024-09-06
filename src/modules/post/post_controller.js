@@ -33,11 +33,12 @@ export const getUserPosts = async (req, res, next) => {
 // ======================================================
 
 export const deleteOnePost = async (req, res, next) => {
-    const post = await postModel.deleteOne({ _id: req.body.post_id })
+    const post = await postModel.deleteOne({ _id: req.params.postId })
     if (post.deletedCount === 0) return next(new Error("invalid post id", { cause: 409 }))
     res.status(201).json({ message: "success", deletedCount: post.deletedCount })
 }
 // ======================================================
+
 
 export const editPost = async (req, res, next) => {
 
