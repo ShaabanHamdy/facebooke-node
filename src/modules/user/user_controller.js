@@ -6,7 +6,6 @@ import userModel from './../../../db/models/users_model.js';
 //  =======================================================    signup
 
 export const signup = async (req, res, next) => {
-
     const checkUser = await userModel.findOne({ email: req.body.email })
     if (checkUser) { return next(new Error("Email Already Exist")) }
     const user = new userModel(req.body)
@@ -16,11 +15,9 @@ export const signup = async (req, res, next) => {
     if (!token) return next(new Error("fail to generate token", { cause: 400 }))
     res.json({ message: "success", user })
 }
-
 //  =======================================================  login
 
 export const login = async (req, res, next) => {
-
     const checkUser = await userModel.findOne({ email: req.body.email })
     if (!checkUser) { return next(new Error("invalid email information", { cause: 409 })) }
     const matchPassword = bcrypt.compareSync(req.body.password, checkUser.password)
@@ -29,15 +26,12 @@ export const login = async (req, res, next) => {
     await userModel.updateOne({ status: "online" })
     res.json({ message: "success", token })
 }
-
 //  ======================================================= logout
 export const logout = async (req, res, next) => {
     const user = await userModel.updateOne({ status: "offline" })
     res.status(201).json({ message: "success ", user })
 }
-
 //  ======================================================= sendCode
-
 export const sendCode = async (req, res, next) => {
     const user = await userModel.findOne({ email: req.body.email })
     if (!user) { return next(Error("invalid email information")) }
@@ -87,12 +81,40 @@ export const settingsProfile = async (req, res, next) => {
     return res.status(200).json({ message: "Done", settingsProfile })
 }
 
-// ====================================================================== changePassword
+// ====================================================================== getUserInfo
 export const getUserInfo = async (req, res, next) => {
-
-    const user = await userModel.findOne({_id:req.user.id})
-    
+    const user = await userModel.findOne({ _id: req.user.id })
     return res.status(200).json({ message: "Done", user })
 }
+// ====================================================================== getAllUsers
+export const getAllUsers = async (req, res, next) => {
+    // const users = await userModel.find().populate("myFriends")
+    // return res.status(200).json({ message: "Done", users })
+
+    const currentUserId = req.user.id
+    const currentUser = await userModel.findById(currentUserId).select('myFriends').populate("myFriends");
+
+    const allUsers = await userModel.find({
+        _id: { $nin: [currentUserId, ...currentUser.myFriends] }
+    });
+    res.status(200).json({ message: 'success', users: allUsers, friends: currentUser });
 
 
+
+}
+// ============================================================== addFriend
+export const addFriend = async (req, res, next) => {
+    const user = await userModel.findOneAndUpdate({ _id: req.user.id }, {
+        $addToSet: { myFriends: req.body.newFriendId }
+    }, { new: true })
+    if (!user) return next(new Error("invalid id"))
+    return res.status(200).json({ message: "success", user })
+}
+// ===========================================================
+export const removeFriend = async (req, res, next) => {
+    const user = await userModel.findOneAndUpdate({ _id: req.user.id }, {
+        $pull: { myFriends: req.body.newFriendId }
+    }, { new: true })
+    if (!user) return next(new Error("invalid id"))
+    return res.status(200).json({ message: "success", user })
+}

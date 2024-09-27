@@ -3,8 +3,8 @@ import { asyncHandling } from './../../utils/error_handling.js';
 import * as user_controller from "./user_controller.js";
 // import { changePasswordSchemaValidator, codeSchemaValidator, senCodeSchemaValidator, signupMiddleware } from "./user_validation.js";
 import auth from "../../middleware/auth.js";
-import * as userValidation from "./user_validation.js";
 import { myMulter } from "../../utils/multer.js";
+import * as userValidation from "./user_validation.js";
 
 const router = Router()
 
@@ -27,7 +27,16 @@ router.post("/confirmCodeInfo", userValidation.codeSchemaValidator, asyncHandlin
 router.post("/changePassword", userValidation.changePasswordSchemaValidator, asyncHandling(user_controller.changePassword))
 
 // //================================================= ===============    
-router.get("/getUserInfo",auth(),  asyncHandling(user_controller.getUserInfo ))
+router.get("/getUserInfo", auth(), asyncHandling(user_controller.getUserInfo))
+
+// //================================================= ===============    
+router.get("/getAllUsers", auth(), asyncHandling(user_controller.getAllUsers))
+
+// //================================================= ===============    
+// //================================================= ===============    
+router.post("/addFriend", auth(), asyncHandling(user_controller.addFriend))
+// //================================================= ===============    
+router.post("/removeFriend", auth(), asyncHandling(user_controller.removeFriend))
 
 // //================================================= ===============    
 

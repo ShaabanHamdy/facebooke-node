@@ -1,6 +1,6 @@
 // import parsePhoneNumberFromString from 'libphonenumber-js';
+import bcrypt from 'bcryptjs';
 import { mongoose } from 'mongoose';
-import bcrypt  from 'bcryptjs'; 
 
 // Declare the Schema of the Mongo model
 
@@ -11,17 +11,21 @@ const userSchema = new mongoose.Schema({
         minlength: [3, 'Name must be at least 3 characters long'],
         maxlength: [50, 'Name must be less than 50 characters long'],
         unique: [true, 'name must be unique'],
-        lowercase:true
+        lowercase: true,
+        trim: true,
+        text: true
+
     },
     email: {
         type: String,
         required: [true, 'Email is required'],
         unique: [true, 'email must be unique'],
-        lowercase:true,
+        lowercase: true,
         match: [
             /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
             'Please fill a valid email address',
         ],
+        trim: true,
     },
     password: {
         type: String,
@@ -45,11 +49,26 @@ const userSchema = new mongoose.Schema({
         default: "male",
         enum: ["male", "female"]
     },
-    birthOfDate: {
-        type:String,
+    bDay: {
+        type: String,
         required: [true, 'Birth of Date is required'],
-    
+
     },
+    bMonth: {
+        type: String,
+        required: [true, 'Birth of Date is required'],
+
+    },
+    bYear: {
+        type: String,
+        required: [true, 'Birth of Date is required'],
+
+    },
+    // birthOfDate: {
+    //     type: String,
+    //     required: [true, 'Birth of Date is required'],
+
+    // },
     status: {
         type: String,
         default: "offline",
@@ -67,7 +86,59 @@ const userSchema = new mongoose.Schema({
     changePasswordTime: {
         type: Date
     },
-    profileImage: { type: [Object] },
+    profileImage: { type: [Object], default: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" },
+    cover: { type: [Object], default: "https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" },
+    myFriends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    friend: {
+        type: Array,
+        default: []
+    },
+    following: {
+        type: Array,
+        default: []
+    },
+    requests: {
+        type: Array,
+        default: []
+    },
+    search: [
+        {
+            user: {
+                type: mongoose.Schema.ObjectId,
+                ref: "User"
+            }
+        }
+    ],
+    details: {
+        bio: String,
+        otherName: String,
+        job: String,
+        workPlace: String,
+        highSchool: String,
+        college: String,
+        currentCity: String,
+        hometown: String,
+        instagram: String,
+        relationship: {
+            type: String,
+            enum: ["single", "in a relation", "Married", "divorced"]
+        },
+    },
+    savePosts: [{
+
+        post: {
+            type: mongoose.Schema.ObjectId,
+            ref: "Post"
+        },
+        saveAt: {
+            type: Date,
+            default: new Date()
+        }
+    }]
+
+
+
+
     // country: {
     //     type: String,
     //     required: [true, 'Country is required'],
@@ -90,7 +161,7 @@ const userSchema = new mongoose.Schema({
 
 
 // hook to hash password 
-userSchema.pre("save",function(next,doc){
+userSchema.pre("save", function (next, doc) {
     this.password = bcrypt.hashSync(this.password, +process.env.SALT_ROUNDS)
     next()
 })

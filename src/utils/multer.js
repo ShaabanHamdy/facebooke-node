@@ -17,8 +17,8 @@ export const myMulter = () => {
             return `${nanoid(4)}--` + req
         },
         imageOptions: {
-            // quality: 80,
-            // resize: { width: 1000, height: 1000 },
+            quality: 80,
+            resize: { width: 800, height: 800 },
         },
 
     });

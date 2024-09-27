@@ -1,10 +1,9 @@
 import postModel from "../../../db/models/post_modal.js"
-import userModel from "../../../db/models/users_model.js"
 
 
 
 export const createPost = async (req, res, next) => {
-    
+
     const post = await postModel.create({
         postImage: req.files?.postImage?.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
         postContent: req.body.postContent,
@@ -41,15 +40,16 @@ export const deleteOnePost = async (req, res, next) => {
 
 export const editPost = async (req, res, next) => {
 
-    const updatePost = await postModel.findOneAndUpdate({ userId: req.user.id , _id:req.params.postId }, 
-    {
-        postContent: req?.body?.postContent,
-        postImage: req?.files?.postImage?.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
-    }, { new: true }
+    const updatePost = await postModel.findOneAndUpdate(
+        { userId: req.user.id, _id: req.params.postId },
+        {
+            postContent: req?.body?.postContent,
+            postImage: req?.files?.postImage?.map((e) => "https://shaaban-facebook-node.up.railway.app/" + e.path),
+        }, { new: true }
 
     )
 
-    if (!updatePost)  return next(Error("failed"))
+    if (!updatePost) return next(Error("failed"))
     return res.status(200).json({ message: "updated post", updatePost })
 }
 

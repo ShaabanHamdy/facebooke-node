@@ -28,6 +28,7 @@
     "nanoid": "^5.0.7",
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.4",
-    "sharp-multer": "^0.3.3"
+    "sharp-multer": "^0.3.3",
+    "socket.io": "^4.7.5"
   }
 }

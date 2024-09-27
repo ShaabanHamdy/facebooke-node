@@ -19,6 +19,9 @@ const signupSchema = Joi.object({
         'string.max': 'Name should have a maximum length of {#limit}',
         'any.required': 'Name is required',
     }),
+    gender: Joi.string().required().external(isUnique).messages({
+        'any.required': 'gender is required',
+    }),
     email: Joi.string().email().required().messages({
         'string.email': 'Please provide a valid email address',
         'any.required': 'Email is required',
@@ -36,12 +39,25 @@ const signupSchema = Joi.object({
         'string.pattern.base': 'Please provide a valid Egyptian mobile number',
         'any.required': 'Mobile number is required',
     }),
-
-    birthOfDate: Joi.string()
-        .pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/)
+    bDay: Joi.string()
+        // .pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/)
         .required()
         .messages({
-            'string.pattern.base': 'Date of birth must be in the format like 15/08/1990',
+            // 'string.pattern.base': 'Date of birth must be in the format like 15/08/1990',
+            'string.empty': 'Date of birth is required'
+        }),
+    bMonth: Joi.string()
+        // .pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/)
+        .required()
+        .messages({
+            // 'string.pattern.base': 'Date of birth must be in the format like 15/08/1990',
+            'string.empty': 'Date of birth is required'
+        }),
+    bYear: Joi.string()
+        // .pattern(/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/)
+        .required()
+        .messages({
+            // 'string.pattern.base': 'Date of birth must be in the format like 15/08/1990',
             'string.empty': 'Date of birth is required'
         }),
 });
@@ -156,10 +172,10 @@ const settingsProfile = Joi.object({
     }),
     profileImage: Joi.object({
         mimetype: Joi.string()
-          .valid('image/jpeg', 'image/png', 'image/gif') // Allow only specific image types
-          .required(),
+            .valid('image/jpeg', 'image/png', 'image/gif') // Allow only specific image types
+            .required(),
         size: Joi.number().max(5 * 1024 * 1024).required(), // Limit file size to 5MB
-      }),
+    }),
 });
 export const settingsProfileValidation = async (req, res, next) => {
     try {

@@ -18,17 +18,17 @@ const sendEmail = async ({
             // pass: process.env.PASS
             user: "shabanhamdy94@gmail.com",
             pass: "kxoc kvip witp vfyw",
-            
+
         }
     })
     const info = await transporter.sendMail({
         from: process.env.USER,
         to,
-        html:message,
+        html: message,
         subject,
         attachments
     })
-    return info.rejected.length ? false : true 
+    return info.rejected.length ? false : true
 }
 
 export default sendEmail
